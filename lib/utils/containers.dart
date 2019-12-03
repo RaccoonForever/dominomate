@@ -51,19 +51,21 @@ class ScoreScreenContainer extends StatelessWidget {
 
 class CustomAlertDialog extends StatefulWidget {
   final String title;
+  final String body;
 
-  const CustomAlertDialog({Key key, this.title}) : super(key: key);
+  const CustomAlertDialog({Key key, this.title, this.body}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return new CustomAlertDialogState(this.title);
+    return new CustomAlertDialogState(this.title, this.body);
   }
 }
 
 class CustomAlertDialogState extends State<CustomAlertDialog> {
   final String title;
+  final String body;
 
-  CustomAlertDialogState(this.title);
+  CustomAlertDialogState(this.title, this.body);
 
   @override
   Widget build(BuildContext context) {
@@ -82,8 +84,42 @@ class CustomAlertDialogState extends State<CustomAlertDialog> {
           child: Scaffold(
             backgroundColor: Colors.transparent,
             body: Container(
-              child: Text(title, style: TextStyle(color: Colors.white),),
-            ),
+                child: Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: Column(
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                      child: Text(
+                        title,
+                        style: TextStyle(
+                            fontFamily: DIALOG_FONT_FAMILY,
+                            fontSize: DIALOG_TITLE_SIZE,
+                            color: DIALOG_TEXT_COLOR),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 4,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: 20.0,
+                        right: 20.0,
+                      ),
+                      child: Text(
+                        body,
+                        style: TextStyle(
+                            fontFamily: DIALOG_FONT_FAMILY,
+                            fontSize: DIALOG_TEXT_SIZE,
+                            color: DIALOG_TEXT_COLOR),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )),
           )),
     );
   }

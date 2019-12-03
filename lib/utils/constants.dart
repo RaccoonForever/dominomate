@@ -14,6 +14,12 @@ const TITLE_1_TEXT_COLOR_DARK = Colors.black;
 const BACKGROUND_COLOR_1 = Colors.white;
 const BACKGROUND_COLOR_2 = Colors.lightBlueAccent;
 
+// DIALOG
+const DIALOG_TEXT_COLOR = _textColor;
+const DIALOG_FONT_FAMILY = _fontFamily;
+const DIALOG_TEXT_SIZE = 15.0;
+const DIALOG_TITLE_SIZE = 25.0;
+
 // BUTTON
 const BUTTON_BACKGROUND_COLOR = _secondaryColor;
 const BUTTON_TEXT_COLOR = _textColor;

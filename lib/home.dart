@@ -144,11 +144,24 @@ Widget buildBottomBar(context) {
         Expanded(
             flex: 2,
             child: Container(
-              child: Icon(
+              child: IconButton(
+                  icon: Icon(
                 Icons.contact_mail,
                 color: ICON_COLOR,
                 semanticLabel: 'Contact me with my mail',
               ),
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: (BuildContext context) {
+                      return CustomAlertDialog(
+                        title: "Contact",
+                        body: "If you want to contact me : \n\n" +
+                        "arthur@clerc-gherardi.fr",
+                      );
+                    });
+              }),
             )),
         Expanded(
           flex: 1,
@@ -158,31 +171,54 @@ Widget buildBottomBar(context) {
           flex: 2,
           child: Container(
               child: IconButton(
-                icon: Icon(Icons.info,
-                    color: ICON_COLOR,
-                    semanticLabel: 'Information about the application'),
-                onPressed: () {
-                  showDialog(context: context, barrierDismissible: true,
-                      builder: (BuildContext context) {
-                        return CustomAlertDialog(title: "coucou");
+            icon: Icon(Icons.info,
+                color: ICON_COLOR,
+                semanticLabel: 'Information about the application'),
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  barrierDismissible: true,
+                  builder: (BuildContext context) {
+                    return CustomAlertDialog(
+                      title: "Information",
+                      body: "This application was design to help people computing their score in KingDomino / QueenDomino games." +
+                          "\n\nIt allows younger people to play without the counting score difficulty. \n\nIt will make you save some time and even more : " +
+                          "it is designed to compute 7x7 boards too !",
+                    );
                   });
-                },
-              )),
+            },
+          )),
         ),
         Expanded(
           flex: 4,
           child: EmptySpace(),
         ),
         Expanded(
-          flex: 2,
-          child: Container(
-            child: Text(
-              'v0.0.1',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontFamily: CONTAINER_FONT_FAMILY,
-                  color: CONTAINER_TEXT_COLOR),
+          flex: 3,
+          child: FlatButton(
+            child: Container(
+              child: Text(
+                'v0.0.1',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontFamily: CONTAINER_FONT_FAMILY,
+                    color: CONTAINER_TEXT_COLOR),
+              ),
             ),
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  barrierDismissible: true,
+                  builder: (BuildContext context) {
+                    return CustomAlertDialog(
+                      title: "Release Version",
+                      body: "Version : 0.0.1 \n" +
+                          "Features : " +
+                          "\n  - KingDomino counting score with AI"
+                              "\n  - Available with camera and from gallery",
+                    );
+                  });
+            },
           ),
         ),
         Expanded(
