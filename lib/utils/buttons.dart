@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:board_game_mate/utils/constants.dart';
 
+import 'containers.dart';
+
 class HomeButton extends StatelessWidget {
   final Function onPressed;
   final double height;
@@ -48,6 +50,53 @@ class HomeButton extends StatelessWidget {
   }
 }
 
+class PreviewButton extends StatelessWidget {
+  final Function onPressed;
+  final String title;
+  final Icon icon;
+
+  const PreviewButton({Key key, this.onPressed, this.title, this.icon}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          color: BUTTON_BACKGROUND_COLOR,
+          borderRadius: BorderRadius.circular(BUTTON_BORDER_RADIUS),
+          boxShadow: [
+            BoxShadow(
+                color: BUTTON_SHADOW_COLOR,
+                offset: BUTTON_SHADOW_OFFSET,
+                blurRadius: BUTTON_SHADOW_BLUR_RADIUS)
+          ],
+          border: Border.all(
+              color: BUTTON_BORDER_COLOR,
+              width: BUTTON_BORDER_WIDTH,
+              style: BorderStyle.solid)),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: InkWell(
+          onTap: onPressed,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: BUTTON_PREVIEW_TEXT_SIZE,
+                  fontFamily: CONTAINER_FONT_FAMILY,
+                  color: BUTTON_PREVIEW_TEXT_COLOR
+                ),
+              ),
+              icon
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class ScoreScreenButton extends StatelessWidget {
   final Function onPressed;
   final String title;
@@ -55,7 +104,8 @@ class ScoreScreenButton extends StatelessWidget {
   final double height;
   final Icon icon;
 
-  const ScoreScreenButton({Key key, this.onPressed, this.title, this.width, this.height, this.icon})
+  const ScoreScreenButton(
+      {Key key, this.onPressed, this.title, this.width, this.height, this.icon})
       : super(key: key);
 
   @override
@@ -88,10 +138,9 @@ class ScoreScreenButton extends StatelessWidget {
                 Text(
                   title,
                   style: TextStyle(
-                    fontFamily: CONTAINER_FONT_FAMILY,
-                    fontSize: BUTTON_SS_TEXT_SIZE,
-                    color: BUTTON_SS_TEXT_COLOR
-                  ),
+                      fontFamily: CONTAINER_FONT_FAMILY,
+                      fontSize: BUTTON_SS_TEXT_SIZE,
+                      color: BUTTON_SS_TEXT_COLOR),
                 )
               ]),
         ),
@@ -205,22 +254,12 @@ class QueenDominoButton extends StatelessWidget {
           onTap: () {
             showDialog(
                 context: context,
+                barrierDismissible: true,
                 builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Text(
-                      "QueenDomino Info",
-                      style: TextStyle(
-                          fontFamily: CONTAINER_FONT_FAMILY,
-                          color: CONTAINER_TEXT_COLOR,
-                          fontSize: CONTAINER_TITLE_TEXT_SIZE),
-                    ),
-                    content: Text(
-                      "This feature is not available for now ! Stay tuned for an update soon !",
-                      style: TextStyle(
-                          fontSize: CONTAINER_TEXT_SIZE,
-                          fontFamily: CONTAINER_FONT_FAMILY,
-                          color: CONTAINER_TEXT_COLOR),
-                    ),
+                  return CustomAlertDialog(
+                    title: "QueenDomino Info",
+                    body:
+                        "This feature is not available for now ! Stay tuned for an update soon !",
                   );
                 });
           },
@@ -303,22 +342,12 @@ class AllDominoButton extends StatelessWidget {
           onTap: () {
             showDialog(
                 context: context,
+                barrierDismissible: true,
                 builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Text(
-                      "FullDomino Info",
-                      style: TextStyle(
-                          fontFamily: CONTAINER_FONT_FAMILY,
-                          color: CONTAINER_TEXT_COLOR,
-                          fontSize: CONTAINER_TITLE_TEXT_SIZE),
-                    ),
-                    content: Text(
-                      "This feature is not available for now ! Stay tuned for an update soon !",
-                      style: TextStyle(
-                          fontSize: CONTAINER_TEXT_SIZE,
-                          fontFamily: CONTAINER_FONT_FAMILY,
-                          color: CONTAINER_TEXT_COLOR),
-                    ),
+                  return CustomAlertDialog(
+                    title: "FullDomino Info",
+                    body:
+                        "This feature is not available for now ! Stay tuned for an update soon !",
                   );
                 });
           },

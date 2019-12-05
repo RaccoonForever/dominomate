@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+const URL_POST_IMAGE_KINGDOMINO = "";
+
 // Theme
 const _primaryColor = Colors.white;
 const _secondaryColor = Color(0xFFFFB74D);
@@ -32,6 +34,17 @@ const BUTTON_SHADOW_OFFSET = Offset(0.0, 2.0);
 const BUTTON_SHADOW_BLUR_RADIUS = 2.0;
 const BUTTON_KINGDOMINO_BACKGROUND_COLOR = _secondaryColor;
 const BUTTON_BACKGROUND_DISABLED_COLOR = Colors.grey;
+
+// PREVIEW BUTTONS
+const BUTTON_PREVIEW_BACKGROUND_COLOR = _secondaryColor;
+const BUTTON_PREVIEW_TEXT_COLOR = _textColor;
+const BUTTON_PREVIEW_TEXT_SIZE = 15.0;
+const BUTTON_PREVIEW_BORDER_COLOR = _borderColor;
+const BUTTON_PREVIEW_BORDER_WIDTH = 1.0;
+const BUTTON_PREVIEW_BORDER_RADIUS = 45.0;
+const BUTTON_PREVIEW_SHADOW_COLOR = _shadowColor;
+const BUTTON_PREVIEW_SHADOW_OFFSET = Offset(0.0, 2.0);
+const BUTTON_PREVIEW_SHADOW_BLUR_RADIUS = 2.0;
 
 // SCORE SCREEN BUTTONS
 const BUTTON_SS_BACKGROUND_COLOR = _secondaryColor;

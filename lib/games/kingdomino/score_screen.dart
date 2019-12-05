@@ -14,17 +14,18 @@ class ScoreScreenKingDomino extends StatefulWidget {
 }
 
 class ScoreScreenState extends State<ScoreScreenKingDomino> {
-  String _score = "";
+  String _score = "N/A";
 
-  _goToCameraScreen(BuildContext context) async {
-    final dataFromPrediction = await Navigator.push(
+  _goToCameraScreen() async {
+    final result = await Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => TakePictureScreen(
                   camera: cameras.first,
                 )));
 
-    _score = dataFromPrediction.toString();
+    _score = result + " points !";
+
   }
 
   @override
@@ -68,6 +69,12 @@ class ScoreScreenState extends State<ScoreScreenKingDomino> {
                       ],
                     )),
                 Expanded(
+                  flex: 2,
+                  child: ScoreScreenContainer(
+                      text: "Your score is\n" + _score
+                  ),
+                ),
+                Expanded(
                     flex: 3,
                     child: Padding(
                       padding: EdgeInsets.all(10),
@@ -75,7 +82,7 @@ class ScoreScreenState extends State<ScoreScreenKingDomino> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
                           ScoreScreenButton(
-                            onPressed: null,
+                            onPressed: _goToCameraScreen,
                             title: "Take a picture",
                             width: 150,
                             icon: Icon(Icons.camera_enhance, size: 50,),
@@ -90,35 +97,30 @@ class ScoreScreenState extends State<ScoreScreenKingDomino> {
                       ),
                     )),
                 Expanded(
-                  flex: 2,
-                  child: ScoreScreenContainer(
-                    text: "Your score \n"
-                  ),
-                ),
-                Expanded(
                     flex: 5,
                     child: Container(
                         child: Padding(
                       padding: EdgeInsets.all(15.0),
                       child: Container(
-                        decoration: BoxDecoration(
+                        /**decoration: BoxDecoration(
                           color: Colors.lightBlueAccent[100],
                           border: Border.all(
                               color: Colors.white,
                               width: 2.0,
                               style: BorderStyle.solid),
                           borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                        ),
+                        ),*/
                         child: Padding(
                             padding: EdgeInsets.all(10),
                             child: Text(
-                              "This application helps you computing King Domino score ! \n\n"
+                              "This application helps you computing KingDomino score ! \n\n"
                               "Choose the source to get the image of your tile board. \n\n Don't forget that the image should be"
-                              " as centered as possible and as clean as possible. Any object should be on the tiles even the little "
-                              "castle construction.",
+                              " as centered as possible and as clean as possible. Any object should be removed from the tiles even the little "
+                              "paper castle.",
                               style: TextStyle(
-                                fontSize: 17,
-                                color: Colors.white,
+                                fontSize: CONTAINER_SS_TEXT_SIZE,
+                                color: CONTAINER_SS_TEXT_COLOR,
+                                fontFamily: CONTAINER_SS_FONT_FAMILY
                               ),
                               textAlign: TextAlign.center,
                             )),

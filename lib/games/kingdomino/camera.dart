@@ -1,14 +1,12 @@
 // A screen that allows users to take a picture using a given camera.
 import 'dart:io';
 
+import 'package:board_game_mate/utils/constants.dart';
+import 'package:board_game_mate/utils/containers.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:http_parser/http_parser.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:http/http.dart' as http;
-import 'package:async/async.dart';
-import 'dart:convert';
 
 class TakePictureScreen extends StatefulWidget {
   final CameraDescription camera;
@@ -52,7 +50,25 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Take a picture')),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: BACKGROUND_COLOR_2,
+          ),
+          onPressed: () {
+            Navigator.pop(context, true);
+          },
+        ),
+        title: Text(
+          'Take a picture',
+          style: TextStyle(
+              fontFamily: CONTAINER_FONT_FAMILY,
+              fontSize: CONTAINER_TEXT_SIZE,
+              color: CONTAINER_TEXT_COLOR),
+        ),
+        backgroundColor: BACKGROUND_COLOR_1,
+      ),
       // Wait until the controller is initialized before displaying the
       // camera preview. Use a FutureBuilder to display a loading spinner
       // until the controller has finished initializing.
@@ -69,7 +85,11 @@ class TakePictureScreenState extends State<TakePictureScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.camera_alt),
+        child: Icon(
+          Icons.camera_alt,
+          color: BACKGROUND_COLOR_2,
+        ),
+        backgroundColor: BACKGROUND_COLOR_1,
         // Provide an onPressed callback.
         onPressed: () async {
           // Take the Picture in a try / catch block. If anything goes wrong,
@@ -91,12 +111,20 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             await _controller.takePicture(path);
 
             // If the picture was taken, display it on a new screen.
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DisplayPictureScreen(imagePath: path),
-              ),
-            );
+            final result = await showDialog(
+                context: context,
+                barrierDismissible: true,
+                builder: (BuildContext context) {
+                  return PreviewAlertDialog(
+                    imagePath: path,
+                    title: "Image preview",
+                    body: "Is the image correct ?",
+                  );
+                });
+
+            if (result != null) {
+              Navigator.pop(context, result);
+            }
           } catch (e) {
             // If an error occurs, log the error to the console.
             print(e);
@@ -104,28 +132,6 @@ class TakePictureScreenState extends State<TakePictureScreen> {
         },
       ),
     );
-  }
-
-  upload(BuildContext context, String path) async {
-    var imgFile = File(path);
-    var uri = Uri.parse("");
-    var request = new http.MultipartRequest("POST", uri);
-    var multipartFile = new http.MultipartFile.fromBytes(
-        'file', await imgFile.readAsBytes(),
-        contentType: new MediaType('image', 'png'));
-
-    request.files.add(multipartFile);
-    request.fields['user'] = 'MobileApplication';
-
-    var response = await request.send();
-
-    print(response.statusCode);
-
-    response.stream.transform(utf8.decoder).listen((value) {
-      print(value);
-    });
-    
-    Navigator.pop(context, response);
   }
 }
 
