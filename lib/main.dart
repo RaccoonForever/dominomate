@@ -1,7 +1,7 @@
-import 'package:board_game_mate/utils/containers.dart';
+import 'package:domino_mate/utils/containers.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:board_game_mate/home.dart';
+import 'package:domino_mate/home.dart';
 import 'dart:async';
 
 List<CameraDescription> cameras;

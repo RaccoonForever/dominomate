@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:board_game_mate/utils/buttons.dart';
-import 'package:board_game_mate/utils/services.dart';
+import 'package:domino_mate/utils/buttons.dart';
+import 'package:domino_mate/utils/services.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 

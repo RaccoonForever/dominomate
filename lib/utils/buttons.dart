@@ -1,7 +1,7 @@
-import 'package:board_game_mate/games/kingdomino/score_screen.dart';
+import 'package:domino_mate/games/kingdomino/score_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:board_game_mate/utils/constants.dart';
+import 'package:domino_mate/utils/constants.dart';
 
 import 'containers.dart';
 

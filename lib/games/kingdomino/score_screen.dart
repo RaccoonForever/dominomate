@@ -1,10 +1,13 @@
-import 'package:board_game_mate/home.dart';
-import 'package:board_game_mate/utils/buttons.dart';
-import 'package:board_game_mate/utils/constants.dart';
-import 'package:board_game_mate/utils/containers.dart';
+import 'dart:io';
+
+import 'package:domino_mate/home.dart';
+import 'package:domino_mate/utils/buttons.dart';
+import 'package:domino_mate/utils/constants.dart';
+import 'package:domino_mate/utils/containers.dart';
 import 'package:flutter/material.dart';
-import 'package:board_game_mate/games/kingdomino/camera.dart';
-import 'package:board_game_mate/main.dart';
+import 'package:domino_mate/games/kingdomino/camera.dart';
+import 'package:domino_mate/main.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ScoreScreenKingDomino extends StatefulWidget {
   @override
@@ -17,14 +20,37 @@ class ScoreScreenState extends State<ScoreScreenKingDomino> {
   String _score = "N/A";
 
   _goToCameraScreen() async {
-    final result = await Navigator.push(
+    String result = await Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => TakePictureScreen(
                   camera: cameras.first,
                 )));
 
-    _score = result + " points !";
+    if (result != null) {
+      _score = result + " points !";
+    }
+
+  }
+
+  _goToGallery() async {
+    File galleryFile = await ImagePicker.pickImage(source: ImageSource.gallery);
+    String path = galleryFile.path;
+
+    final result = await showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return PreviewAlertDialog(
+            imagePath: path,
+            title: "Image preview",
+            body: "Is this image correct ?",
+          );
+        });
+
+    if (result != null) {
+      _score = result + " points !";
+    }
 
   }
 
@@ -88,7 +114,7 @@ class ScoreScreenState extends State<ScoreScreenKingDomino> {
                             icon: Icon(Icons.camera_enhance, size: 50,),
                           ),
                           ScoreScreenButton(
-                            onPressed: null,
+                            onPressed: _goToGallery,
                             title: "From gallery",
                             width: 150,
                             icon: Icon(Icons.folder, size: 50,),

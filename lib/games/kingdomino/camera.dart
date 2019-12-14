@@ -1,8 +1,8 @@
 // A screen that allows users to take a picture using a given camera.
 import 'dart:io';
 
-import 'package:board_game_mate/utils/constants.dart';
-import 'package:board_game_mate/utils/containers.dart';
+import 'package:domino_mate/utils/constants.dart';
+import 'package:domino_mate/utils/containers.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';

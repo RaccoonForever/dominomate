@@ -1,7 +1,7 @@
-import 'package:board_game_mate/home.dart';
-import 'package:board_game_mate/utils/buttons.dart';
-import 'package:board_game_mate/utils/constants.dart';
-import 'package:board_game_mate/utils/containers.dart';
+import 'package:domino_mate/home.dart';
+import 'package:domino_mate/utils/buttons.dart';
+import 'package:domino_mate/utils/constants.dart';
+import 'package:domino_mate/utils/containers.dart';
 import 'package:flutter/material.dart';
 
 class GameList extends StatefulWidget {

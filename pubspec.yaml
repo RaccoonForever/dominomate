@@ -1,5 +1,5 @@
-name: board_game_mate
-description: Board Game Scoring application with auto score taking pictures of the board
+name: domino_mate
+description: Scoring application with AI recognition of the board for KingDomino and QueenDomino games
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -29,6 +29,7 @@ dependencies:
   http: ^0.12.0+2
   http_parser: ^3.1.3
   modal_progress_hud: ^0.1.3
+  image_picker:
 
 dev_dependencies:
   flutter_test:
