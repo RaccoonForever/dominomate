@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const URL_POST_IMAGE_KINGDOMINO = "";
+const URL_POST_IMAGE_KINGDOMINO = "http://34.105.235.194:8686/kingdomino/predict/latest";
 
 // Theme
 const _primaryColor = Colors.white;

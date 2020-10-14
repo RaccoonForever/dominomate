@@ -9,6 +9,9 @@ import 'package:domino_mate/games/kingdomino/camera.dart';
 import 'package:domino_mate/main.dart';
 import 'package:image_picker/image_picker.dart';
 
+import 'package:domino_mate/ad_manager.dart';
+import 'package:firebase_admob/firebase_admob.dart';
+
 class ScoreScreenKingDomino extends StatefulWidget {
   @override
   ScoreScreenState createState() {
@@ -17,7 +20,29 @@ class ScoreScreenKingDomino extends StatefulWidget {
 }
 
 class ScoreScreenState extends State<ScoreScreenKingDomino> {
+
   String _score = "N/A";
+  BannerAd _bannerAd;
+
+  void _loadBannerAd() {
+    _bannerAd
+    ..load()
+        ..show(anchorType: AnchorType.bottom);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _bannerAd = BannerAd(adUnitId: AdManager.bannerAdUnitId, size: AdSize.banner);
+
+    _loadBannerAd();
+  }
+
+  @override
+  void dispose() {
+    _bannerAd?.dispose();
+    super.dispose();
+  }
 
   _goToCameraScreen() async {
     String result = await Navigator.push(
@@ -28,16 +53,17 @@ class ScoreScreenState extends State<ScoreScreenKingDomino> {
                 )));
 
     if (result != null) {
-      _score = result + " points !";
+      setState(() {
+        _score = result.toString();
+      });
     }
-
   }
 
   _goToGallery() async {
     File galleryFile = await ImagePicker.pickImage(source: ImageSource.gallery);
     String path = galleryFile.path;
 
-    final result = await showDialog(
+    await showDialog(
         context: context,
         barrierDismissible: true,
         builder: (BuildContext context) {
@@ -46,12 +72,11 @@ class ScoreScreenState extends State<ScoreScreenKingDomino> {
             title: "Image preview",
             body: "Is this image correct ?",
           );
-        });
-
-    if (result != null) {
-      _score = result + " points !";
-    }
-
+        }).then((value) {
+      setState(() {
+        _score = value.toString();
+      });
+    });
   }
 
   @override
@@ -96,9 +121,7 @@ class ScoreScreenState extends State<ScoreScreenKingDomino> {
                     )),
                 Expanded(
                   flex: 2,
-                  child: ScoreScreenContainer(
-                      text: "Your score is\n" + _score
-                  ),
+                  child: ScoreScreenContainer(text: "Your score is\n" + _score),
                 ),
                 Expanded(
                     flex: 3,
@@ -111,13 +134,19 @@ class ScoreScreenState extends State<ScoreScreenKingDomino> {
                             onPressed: _goToCameraScreen,
                             title: "Take a picture",
                             width: 150,
-                            icon: Icon(Icons.camera_enhance, size: 50,),
+                            icon: Icon(
+                              Icons.camera_enhance,
+                              size: 50,
+                            ),
                           ),
                           ScoreScreenButton(
                             onPressed: _goToGallery,
                             title: "From gallery",
                             width: 150,
-                            icon: Icon(Icons.folder, size: 50,),
+                            icon: Icon(
+                              Icons.folder,
+                              size: 50,
+                            ),
                           )
                         ],
                       ),
@@ -129,13 +158,13 @@ class ScoreScreenState extends State<ScoreScreenKingDomino> {
                       padding: EdgeInsets.all(15.0),
                       child: Container(
                         /**decoration: BoxDecoration(
-                          color: Colors.lightBlueAccent[100],
-                          border: Border.all(
-                              color: Colors.white,
-                              width: 2.0,
-                              style: BorderStyle.solid),
-                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                        ),*/
+                                color: Colors.lightBlueAccent[100],
+                                border: Border.all(
+                                color: Colors.white,
+                                width: 2.0,
+                                style: BorderStyle.solid),
+                                borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                                ),*/
                         child: Padding(
                             padding: EdgeInsets.all(10),
                             child: Text(
@@ -144,10 +173,9 @@ class ScoreScreenState extends State<ScoreScreenKingDomino> {
                               " as centered as possible and as clean as possible. Any object should be removed from the tiles even the little "
                               "paper castle.",
                               style: TextStyle(
-                                fontSize: CONTAINER_SS_TEXT_SIZE,
-                                color: CONTAINER_SS_TEXT_COLOR,
-                                fontFamily: CONTAINER_SS_FONT_FAMILY
-                              ),
+                                  fontSize: CONTAINER_SS_TEXT_SIZE,
+                                  color: CONTAINER_SS_TEXT_COLOR,
+                                  fontFamily: CONTAINER_SS_FONT_FAMILY),
                               textAlign: TextAlign.center,
                             )),
                       ),

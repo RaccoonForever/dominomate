@@ -124,6 +124,8 @@ class TakePictureScreenState extends State<TakePictureScreen> {
 
             if (result != null) {
               Navigator.pop(context, result);
+            } else {
+              throw new Exception("Result from POST query is null.");
             }
           } catch (e) {
             // If an error occurs, log the error to the console.
