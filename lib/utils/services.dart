@@ -14,7 +14,7 @@ postRequest(context, path) async {
 
 
   if (response.statusCode == 200) {
-    return response.data["result"];
+    return response;
   } else {
     return null;
   }
