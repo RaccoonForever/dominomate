@@ -198,7 +198,7 @@ Widget buildBottomBar(context) {
           child: FlatButton(
             child: Container(
               child: Text(
-                'v0.0.1',
+                'v0.0.2',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontFamily: CONTAINER_FONT_FAMILY,
@@ -212,10 +212,10 @@ Widget buildBottomBar(context) {
                   builder: (BuildContext context) {
                     return CustomAlertDialog(
                       title: "Release Version",
-                      body: "Version : 0.0.1 \n" +
-                          "Features : " +
-                          "\n  - KingDomino counting score with AI"
-                              "\n  - Available with camera and from gallery",
+                      body: "Version : 0.0.2 \n" +
+                          "New Features : " +
+                          "\n  - Button in camera was not accessible due to the ad" +
+                          "\n  - Removing audio permission",
                     );
                   });
             },

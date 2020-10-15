@@ -34,6 +34,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
       widget.camera,
       // Define the resolution to use.
       ResolutionPreset.medium,
+      enableAudio: false
     );
 
     // Next, initialize the controller. This returns a Future.
@@ -84,54 +85,57 @@ class TakePictureScreenState extends State<TakePictureScreen> {
           }
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(
-          Icons.camera_alt,
-          color: BACKGROUND_COLOR_2,
-        ),
-        backgroundColor: BACKGROUND_COLOR_1,
-        // Provide an onPressed callback.
-        onPressed: () async {
-          // Take the Picture in a try / catch block. If anything goes wrong,
-          // catch the error.
-          try {
-            // Ensure that the camera is initialized.
-            await _initializeControllerFuture;
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(bottom: 50),
+        child: FloatingActionButton(
+          child: Icon(
+            Icons.camera_alt,
+            color: BACKGROUND_COLOR_2,
+          ),
+          backgroundColor: BACKGROUND_COLOR_1,
+          // Provide an onPressed callback.
+          onPressed: () async {
+            // Take the Picture in a try / catch block. If anything goes wrong,
+            // catch the error.
+            try {
+              // Ensure that the camera is initialized.
+              await _initializeControllerFuture;
 
-            // Construct the path where the image should be saved using the
-            // pattern package.
-            final path = join(
-              // Store the picture in the temp directory.
-              // Find the temp directory using the `path_provider` plugin.
-              (await getTemporaryDirectory()).path,
-              '${DateTime.now()}.png',
-            );
+              // Construct the path where the image should be saved using the
+              // pattern package.
+              final path = join(
+                // Store the picture in the temp directory.
+                // Find the temp directory using the `path_provider` plugin.
+                (await getTemporaryDirectory()).path,
+                '${DateTime.now()}.png',
+              );
 
-            // Attempt to take a picture and log where it's been saved.
-            await _controller.takePicture(path);
+              // Attempt to take a picture and log where it's been saved.
+              await _controller.takePicture(path);
 
-            // If the picture was taken, display it on a new screen.
-            final result = await showDialog(
-                context: context,
-                barrierDismissible: true,
-                builder: (BuildContext context) {
-                  return PreviewAlertDialog(
-                    imagePath: path,
-                    title: "Image preview",
-                    body: "Is the image correct ?",
-                  );
-                });
+              // If the picture was taken, display it on a new screen.
+              final result = await showDialog(
+                  context: context,
+                  barrierDismissible: true,
+                  builder: (BuildContext context) {
+                    return PreviewAlertDialog(
+                      imagePath: path,
+                      title: "Image preview",
+                      body: "Is the image correct ?",
+                    );
+                  });
 
-            if (result != null) {
-              Navigator.pop(context, result);
-            } else {
-              throw new Exception("Result from POST query is null.");
+              if (result != null) {
+                Navigator.pop(context, result);
+              } else {
+                throw new Exception("Result from POST query is null.");
+              }
+            } catch (e) {
+              // If an error occurs, log the error to the console.
+              print(e);
             }
-          } catch (e) {
-            // If an error occurs, log the error to the console.
-            print(e);
-          }
-        },
+          },
+        ),
       ),
     );
   }

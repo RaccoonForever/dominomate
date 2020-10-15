@@ -45,16 +45,16 @@ class ScoreScreenState extends State<ScoreScreenKingDomino> {
   }
 
   _goToCameraScreen() async {
-    String result = await Navigator.push(
+    var response = await Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => TakePictureScreen(
                   camera: cameras.first,
                 )));
 
-    if (result != null) {
+    if (response != null) {
       setState(() {
-        _score = result.toString();
+        _score = response.data["result"].toString();
       });
     }
   }
@@ -72,9 +72,9 @@ class ScoreScreenState extends State<ScoreScreenKingDomino> {
             title: "Image preview",
             body: "Is this image correct ?",
           );
-        }).then((value) {
+        }).then((response) {
       setState(() {
-        _score = value.toString();
+        _score = response.data["result"].toString();
       });
     });
   }
