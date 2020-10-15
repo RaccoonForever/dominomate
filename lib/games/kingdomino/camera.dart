@@ -58,7 +58,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             color: BACKGROUND_COLOR_2,
           ),
           onPressed: () {
-            Navigator.pop(context, true);
+            Navigator.pop(context);
           },
         ),
         title: Text(
@@ -86,7 +86,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
         },
       ),
       floatingActionButton: Padding(
-        padding: EdgeInsets.only(bottom: 50),
+        padding: EdgeInsets.only(bottom: 100, right: 30),
         child: FloatingActionButton(
           child: Icon(
             Icons.camera_alt,

@@ -198,7 +198,7 @@ Widget buildBottomBar(context) {
           child: FlatButton(
             child: Container(
               child: Text(
-                'v0.0.2',
+                'v0.0.3',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontFamily: CONTAINER_FONT_FAMILY,
@@ -212,10 +212,11 @@ Widget buildBottomBar(context) {
                   builder: (BuildContext context) {
                     return CustomAlertDialog(
                       title: "Release Version",
-                      body: "Version : 0.0.2 \n" +
+                      body: "Version : 0.0.3 \n" +
                           "New Features : " +
-                          "\n  - Button in camera was not accessible due to the ad" +
-                          "\n  - Removing audio permission",
+                          "\n  - Moving up 'Taking Picture' button again" +
+                          "\n  - Correcting return from camera screen" +
+                          "\n  - Disabling button when sending picture"
                     );
                   });
             },

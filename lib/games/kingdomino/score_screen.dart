@@ -73,9 +73,11 @@ class ScoreScreenState extends State<ScoreScreenKingDomino> {
             body: "Is this image correct ?",
           );
         }).then((response) {
-      setState(() {
-        _score = response.data["result"].toString();
-      });
+          if (response != null) {
+            setState(() {
+              _score = response.data["result"].toString();
+            });
+          }
     });
   }
 

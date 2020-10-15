@@ -1,3 +1,5 @@
+import 'package:http/http.dart' as http;
+
 import 'package:domino_mate/games/kingdomino/score_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -50,18 +52,32 @@ class HomeButton extends StatelessWidget {
   }
 }
 
-class PreviewButton extends StatelessWidget {
-  final Function onPressed;
+class PreviewButton extends StatefulWidget {
+  final Future<http.Response> onPressed;
   final String title;
   final Icon icon;
 
-  const PreviewButton({Key key, this.onPressed, this.title, this.icon}) : super(key: key);
+  const PreviewButton({Key key, this.onPressed, this.title, this.icon})
+      : super(key: key);
+
+  @override
+  _PreviewButtonState createState() => new _PreviewButtonState();
+}
+
+class _PreviewButtonState extends State<PreviewButton> {
+  bool _isDisabled;
+
+  @override
+  void initState() {
+    super.initState();
+    _isDisabled = false;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: BUTTON_BACKGROUND_COLOR,
+          color: _isDisabled ? BUTTON_BACKGROUND_DISABLED_COLOR : BUTTON_BACKGROUND_COLOR,
           borderRadius: BorderRadius.circular(BUTTON_BORDER_RADIUS),
           boxShadow: [
             BoxShadow(
@@ -76,19 +92,29 @@ class PreviewButton extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: InkWell(
-          onTap: onPressed,
+          onTap: _isDisabled
+              ? null
+              : () async {
+                  setState(() {
+                    _isDisabled = true;
+                  });
+                  var result = await widget.onPressed;
+                  setState(() {
+                    _isDisabled = false;
+                  });
+                  Navigator.pop(context, result);
+                },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               Text(
-                title,
+                widget.title,
                 style: TextStyle(
-                  fontSize: BUTTON_PREVIEW_TEXT_SIZE,
-                  fontFamily: CONTAINER_FONT_FAMILY,
-                  color: BUTTON_PREVIEW_TEXT_COLOR
-                ),
+                    fontSize: BUTTON_PREVIEW_TEXT_SIZE,
+                    fontFamily: CONTAINER_FONT_FAMILY,
+                    color: BUTTON_PREVIEW_TEXT_COLOR),
               ),
-              icon
+              widget.icon
             ],
           ),
         ),

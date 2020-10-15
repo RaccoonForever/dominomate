@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:http/http.dart' as http;
 
 import 'package:domino_mate/utils/buttons.dart';
 import 'package:domino_mate/utils/services.dart';
@@ -99,96 +100,175 @@ class PreviewAlertDialogState extends State<PreviewAlertDialog> {
               backgroundColor: Colors.transparent,
               body: Container(
                   child: Padding(
-                    padding: const EdgeInsets.all(30.0),
-                    child: Column(
-                      children: <Widget>[
-                        Expanded(
-                          flex: 1,
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                            child: Text(
-                              title,
-                              style: TextStyle(
-                                  fontFamily: DIALOG_FONT_FAMILY,
-                                  fontSize: DIALOG_TITLE_SIZE,
-                                  color: DIALOG_TEXT_COLOR),
-                            ),
-                          ),
+                padding: const EdgeInsets.all(30.0),
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                      flex: 1,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                        child: Text(
+                          title,
+                          style: TextStyle(
+                              fontFamily: DIALOG_FONT_FAMILY,
+                              fontSize: DIALOG_TITLE_SIZE,
+                              color: DIALOG_TEXT_COLOR),
                         ),
-                        Expanded(
-                          flex: 4,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: FileImage(File(imagePath)),
-                                  fit: BoxFit.contain),
-                            ),
-                          ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 4,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: FileImage(File(imagePath)),
+                              fit: BoxFit.contain),
                         ),
-                        Expanded(
-                          flex: 2,
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              left: 20.0,
-                              right: 20.0,
-                              top: 10.0,
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          left: 20.0,
+                          right: 20.0,
+                          top: 10.0,
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Expanded(
+                              flex: 1,
+                              child: Text(
+                                body,
+                                style: TextStyle(
+                                    fontFamily: DIALOG_FONT_FAMILY,
+                                    fontSize: DIALOG_TEXT_SIZE,
+                                    color: DIALOG_TEXT_COLOR),
+                              ),
                             ),
-                            child: Column(
-                              children: <Widget>[
-                                Expanded(
-                                  flex: 1,
-                                  child: Text(
-                                    body,
-                                    style: TextStyle(
-                                        fontFamily: DIALOG_FONT_FAMILY,
-                                        fontSize: DIALOG_TEXT_SIZE,
-                                        color: DIALOG_TEXT_COLOR),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 2,
-                                  child: Row(
-                                    mainAxisAlignment:
+                            Expanded(
+                              flex: 2,
+                              child: Row(
+                                mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
-                                    children: <Widget>[
-                                      PreviewButton(
-                                        title: "OK",
-                                        onPressed: () async {
-                                          setState(() {
-                                            _loading = true;
-                                          });
-                                          var result = await postRequest(context, imagePath);
+                                children: <Widget>[
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        color: _loading
+                                            ? BUTTON_BACKGROUND_DISABLED_COLOR
+                                            : BUTTON_BACKGROUND_COLOR,
+                                        borderRadius: BorderRadius.circular(
+                                            BUTTON_BORDER_RADIUS),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: BUTTON_SHADOW_COLOR,
+                                              offset: BUTTON_SHADOW_OFFSET,
+                                              blurRadius:
+                                                  BUTTON_SHADOW_BLUR_RADIUS)
+                                        ],
+                                        border: Border.all(
+                                            color: BUTTON_BORDER_COLOR,
+                                            width: BUTTON_BORDER_WIDTH,
+                                            style: BorderStyle.solid)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: InkWell(
+                                        onTap: _loading
+                                            ? null
+                                            : () async {
+                                                setState(() {
+                                                  _loading = true;
+                                                });
+                                                var result = await postRequest(
+                                                    context, imagePath);
 
-                                          setState(() {
-                                            _loading = false;
-                                          });
-                                          Navigator.pop(context, result);
-                                        },
-                                        icon: Icon(
-                                          Icons.check,
-                                          color: ICON_COLOR,
+                                                setState(() {
+                                                  _loading = false;
+                                                });
+                                                Navigator.pop(context, result);
+                                              },
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: <Widget>[
+                                            Text(
+                                              "Ok",
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      BUTTON_PREVIEW_TEXT_SIZE,
+                                                  fontFamily:
+                                                      CONTAINER_FONT_FAMILY,
+                                                  color:
+                                                      BUTTON_PREVIEW_TEXT_COLOR),
+                                            ),
+                                            Icon(
+                                              Icons.check,
+                                              color: ICON_COLOR,
+                                            )
+                                          ],
                                         ),
                                       ),
-                                      PreviewButton(
-                                        title: "Try again",
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        icon: Icon(
-                                          Icons.do_not_disturb_alt,
-                                          color: ICON_COLOR,
-                                        ),
-                                      )
-                                    ],
+                                    ),
                                   ),
-                                )
-                              ],
-                            ),
-                          ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        color: _loading
+                                            ? BUTTON_BACKGROUND_DISABLED_COLOR
+                                            : BUTTON_BACKGROUND_COLOR,
+                                        borderRadius: BorderRadius.circular(
+                                            BUTTON_BORDER_RADIUS),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: BUTTON_SHADOW_COLOR,
+                                              offset: BUTTON_SHADOW_OFFSET,
+                                              blurRadius:
+                                                  BUTTON_SHADOW_BLUR_RADIUS)
+                                        ],
+                                        border: Border.all(
+                                            color: BUTTON_BORDER_COLOR,
+                                            width: BUTTON_BORDER_WIDTH,
+                                            style: BorderStyle.solid)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: InkWell(
+                                        onTap: _loading
+                                            ? null
+                                            : () {
+                                                Navigator.pop(context);
+                                              },
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: <Widget>[
+                                            Text(
+                                              "Try Again",
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      BUTTON_PREVIEW_TEXT_SIZE,
+                                                  fontFamily:
+                                                      CONTAINER_FONT_FAMILY,
+                                                  color:
+                                                      BUTTON_PREVIEW_TEXT_COLOR),
+                                            ),
+                                            Icon(
+                                              Icons.do_not_disturb_alt,
+                                              color: ICON_COLOR,
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  )),
+                  ],
+                ),
+              )),
             ),
             inAsyncCall: _loading),
       ),
@@ -232,41 +312,41 @@ class CustomAlertDialogState extends State<CustomAlertDialog> {
             backgroundColor: Colors.transparent,
             body: Container(
                 child: Padding(
-                  padding: const EdgeInsets.all(30.0),
-                  child: Column(
-                    children: <Widget>[
-                      Expanded(
-                        flex: 1,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                          child: Text(
-                            title,
-                            style: TextStyle(
-                                fontFamily: DIALOG_FONT_FAMILY,
-                                fontSize: DIALOG_TITLE_SIZE,
-                                color: DIALOG_TEXT_COLOR),
-                          ),
-                        ),
+              padding: const EdgeInsets.all(30.0),
+              child: Column(
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                      child: Text(
+                        title,
+                        style: TextStyle(
+                            fontFamily: DIALOG_FONT_FAMILY,
+                            fontSize: DIALOG_TITLE_SIZE,
+                            color: DIALOG_TEXT_COLOR),
                       ),
-                      Expanded(
-                        flex: 4,
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            left: 20.0,
-                            right: 20.0,
-                          ),
-                          child: Text(
-                            body,
-                            style: TextStyle(
-                                fontFamily: DIALOG_FONT_FAMILY,
-                                fontSize: DIALOG_TEXT_SIZE,
-                                color: DIALOG_TEXT_COLOR),
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                )),
+                  Expanded(
+                    flex: 4,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: 20.0,
+                        right: 20.0,
+                      ),
+                      child: Text(
+                        body,
+                        style: TextStyle(
+                            fontFamily: DIALOG_FONT_FAMILY,
+                            fontSize: DIALOG_TEXT_SIZE,
+                            color: DIALOG_TEXT_COLOR),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )),
           )),
     );
   }
